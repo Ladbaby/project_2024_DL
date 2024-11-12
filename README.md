@@ -122,7 +122,7 @@ puppeteer:
 1. 新建文件夹用于存放标注图片和对应的标签
 
     在自定义的路径下新建 `input_images` 和 `output_annotations` 两个空文件夹。把所分配的数学试题图片放入 `input_images` 中。`output_annotations` 文件夹用于存放后续软件生成的每张图片的xml标签。**待标注完成后重命名并提交 `output_annotations` 文件夹压缩包**
-2. 在网址 http://116.56.134.138/ (需校园网访问) 下找到自己 `点名册序号.zip` 的图片压缩包下载，并把解压的图片放入 `input_images` 文件夹中。
+2. 在网址 http://202.38.247.12/share/CuUKY8Cn (密码 12345678，有效时间 30 天，需校园网访问) 下找到自己 `点名册序号` 的文件夹下载（如点名册序号为 1 号则下载文件夹 `1`），并把下载的的图片放入 `input_images` 文件夹中。
 3. 修改类别标签文件 `labelImg/data/predefined_classes.txt`，删去原来类别名称，输入 `math`，保存退出。
 4. 在 labelImg 的文件夹下，使用命令 `python labelImg.py` 打开标注软件
 5. 点击打开目录 (<kbd>Open Dir</kbd>)，选择 `input_images` 文件夹
@@ -144,7 +144,7 @@ puppeteer:
 
     > PS: 提升效率小技巧：（1）熟练使用快捷键 <kbd>w</kbd> 和 <kbd>d</kbd>；（2）在软件右上角勾选使用预设标签
 
-9. 重命名 `output_annotations` 文件夹为 `点名册序号_姓名`，压缩并在提交到指定网址 (http://116.56.134.138/files/大作业/step1_标注上传/)
+9. 重命名 `output_annotations` 文件夹为 `点名册序号_姓名`，压缩并在提交到指定网址 (http://116.56.134.138/files/大作业/step1_标注上传/)。**提交截至时间：11月19日23:59**
 
 ### 2.4 框选数学表达式规则：
 
