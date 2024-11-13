@@ -71,7 +71,7 @@ puppeteer:
 
 ### 2.1 使用软件介绍
 
-本次标注使用的是 labelImg，是目标检查与识别科研界内广泛使用的开源标注软件。项目地址为：https://github.com/tzutalin/labelImg。
+本次标注使用的是 labelImg，是目标检查与识别科研界内广泛使用的开源标注软件。项目地址为：https://github.com/tzutalin/labelImg
 
 ### 2.2 软件安装流程
 
