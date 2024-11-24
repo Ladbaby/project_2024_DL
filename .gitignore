@@ -1,3 +1,7 @@
+data_preprocess/mathpix/*
+data_preprocess/images/*
+data_preprocess/labels/*
+data_preprocess/labels_test/*
 model2_CAN/train.py
 model2_CAN/utils.py
 model2_CAN/requirements.txt

@@ -175,7 +175,10 @@ puppeteer:
 
 ## 四，步骤三：获取数据集
 
-在网址 http://116.56.134.138/files/大作业/step3_数据集下载/ 下载数据集，由于数据集未正式公开，目前仅用作课程作业，**请勿传播**。
+在网址 http://116.56.134.138/api/public/dl/nOmA5PDD/download_dl/datasets.zip?token=JRoYrZeFIIKoxIi7ey6ZYiG0KUQZrwkDzIAxqIpz4Z0519MlcrU0yszgjzqn103L9uiBWaWmozD8V_FJBQG8RGeb40bfbPGreS_1UtCaDInfGgbfVwJzL36ajw8Ag_Nz 下载数据集，由于数据集未正式公开，目前仅用作课程作业，**请勿传播**。
+
+> 链接有效期 30 天
+
 格式和说明如下：
 ```
 .
@@ -184,7 +187,7 @@ puppeteer:
     └── labels      # 标签
 ```
 
-> PS: 由于我们设计于模型训练的代码中动态进行训练/验证/测试集合的分割，所以并没有把原始照片直接分割成训练/验证/测试三个子文件夹。
+> PS: 由于我们设计于模型训练的代码中动态进行训练/验证集合的分割，所以并没有把原始照片直接分割成训练/验证两个子文件夹。
 
 ## 五，步骤四：数据预处理
 
@@ -193,7 +196,8 @@ puppeteer:
 ### 5.1 项目文件功能
 ```
 .
-├── preprocess.py # 过滤非法标签，生成 .npy 格式的图片+标签文件
+├── preprocess.py # 过滤非法标签，生成 .npy 格式的图片+标签文件。只生成训练和验证集。
+├── preprocess_test.py # 类似 preprocess.py，但只生成测试集
 └── vocab.txt   # 标签里包含的词汇，觉得不全的话可以自行补充
 ```
 
@@ -202,7 +206,7 @@ puppeteer:
 
 - 运行 `python data_preprocess/preprocess.py`
 
-    该代码干的事情：
+    该代码生成**训练**和**验证**数据集，具体干的事情：
     1. Tokenization，根据词表进行分词，并根据词表初步过滤数据
     2. 过滤多行数据和error mathpix
     3. 对齐过滤后的数据
@@ -210,11 +214,33 @@ puppeteer:
 
         ```
         {
-            'ID': 1,
+            'ID': 00000,
             'label': "x ^ { 2 } - 1 3 x + 3 6 < 0",
             'image': np.ndarray of shape (width, height, RGB)
         }
         ```
+
+        `ID` 范围：`00000` ~ `104010`
+
+        > 其实理论上应该是 `000000` （6 个 0 而非 5 个）开头的，没料到有这么多样本。可能是个小坑，需要留一下。
+
+- 运行 `python data_preprocess/preprocess_test.py`
+
+    该代码生成**测试集**，具体干的事情：
+
+    1. 保存为一系列 [.npy](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html) 后缀的文件。其中每个文件包含一个 list，其中的每一项是一个样本对应的 dict，格式如下：
+
+        ```
+        {
+            'ID': 00000,
+            'label': "NOT_AVAILABLE",
+            'image': np.ndarray of shape (width, height, RGB)
+        }
+        ```
+
+        `ID` 范围：`104011` ~ `105060`
+
+        可以看到测试集的标签为 `NOT_AVAILABLE`，因为这些数据是后续模型性能打榜的时候，各位同学需要使用自己训练好的模型，进行预测的标签。
 
 > PS: 关于为什么使用多个 `.npy` 文件来同时存储照片和标签，而不是使用原本 `.png` 和 `.txt` 的文件：文件的 I/O 会引入极大的时间开销，每次存取照片和标签都隐形增加处理耗时
 > 
@@ -236,12 +262,14 @@ puppeteer:
 - 是否必须：非强制，是否测试及测试成绩会作为打分参考
 - 开放时段：12月13日~12月20日
 - 提交形式：网页链接（见 [7.2](#72-两阶段测试)）
-- 提交内容：提交**两个TXT格式文件**包含模型在测试集上的预测结果，以及模型的复杂度（见 [7.3](#73-提交内容)）
+- 提交内容：提交**两个TXT格式文件**包含模型在**测试集**上的预测结果，以及模型的复杂度（见 [7.3](#73-提交内容)）
+
+    > 哪些是测试集：预处理的时候 `data_preprocess/preprocess_test.py` 对应的图片，即 `ID` 范围 `104011` ~ `105060`
 - 评价指标：BLEU Score, Edit Distance Score, Exact Match Score, Model Complexity Score（见 [7.4](#74-评价指标)）
 - 测试结果：测试结果和排名将会**在每一阶段提交结束后次日公布**
 - 注意事项：
   1. 交两个TXT文件！
-  2. 模型预测的标签结果顺序不要错，一定要和test_ids.txt的顺序一一对应！
+  2. 模型预测的标签结果顺序不要错，一定要和测试集里面的ID顺序一一对应！
   3. TXT文件严禁传播，提交不属于本组的TXT文件按作弊处理！
   4. 各组妥善保存对应模型参数以备查验！
 
@@ -268,6 +296,8 @@ puppeteer:
     <div align="center">
     <img src="images/11.jpg" width = "600"/>
     </div>
+
+    > 测试集的 `ID` 范围 `104011` ~ `105060`，所以第一行是 `ID` 为 `104011` 的图片对应的预测标签，第二行为 `104012`，以此类推。
 
 - `姓名1_姓名2_complexity_v版本号.txt`: 第一行表示模型 1 的模型复杂度（单位 Mac），第二行表示模型 2 的模型复杂度。统一使用科学计数法，保留小数点后两位（如 1.03e10 Mac）
 
