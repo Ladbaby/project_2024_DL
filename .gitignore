@@ -7,6 +7,7 @@ model2_CAN/utils.py
 model2_CAN/requirements.txt
 model2_CAN/MyDataset.yaml
 model2_CAN/dataset.py
+datasets/*
 *总结.docx
 *.zip
 .idea/
