@@ -47,7 +47,7 @@ puppeteer:
 确保装好了一些额外的包：
 
 ```shell
-pip install -r requirements.txt
+pip install tensorboardX matplotlib thop
 ```
 
 在 `vocab.txt` 开头加上（假如没有的话）：
