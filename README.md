@@ -342,7 +342,7 @@ puppeteer:
 1. Model Complexity Score (0~100; larger is better) 模型复杂度分数。复杂度增大则为 0 分，**复杂度不变则视为无效成绩**，复杂度减小 10% 则为 100 分：
 
     ```
-    Model Complexity Score = MAX(0, MIN(100, (X - Model Complexity) / (0.1 * X)))
+    Model Complexity Score = MAX(0, MIN(100, (X - Model Complexity) / (0.1 * X) * 100))
     ```
 
     X 为改动前的模型复杂度值：
